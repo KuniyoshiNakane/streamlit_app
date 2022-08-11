@@ -1,31 +1,42 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+from st_aggrid import AgGrid
+
+st.set_page_config(layout="wide")
 
 data_url = 'https://covid19.mhlw.go.jp/public/opendata/newly_confirmed_cases_daily.csv'
 
-st.title('Sample App')
-st.caption('Streamlit 開発練習用アプリです')
+st.title('ガジェット研究会　新型コロナ関連ダッシュボード')
+st.caption('新型コロナに関連したデータです')
 
-st.text('サンプル')
+st.text('新規感染者データ')
 
-with st.form(key='input_form'):
-    password = st.text_input('パスワード')
-    btn_ok = st.form_submit_button('送信')
+col1, col2 = st.columns(2)
 
-    if btn_ok & (password == 'poppy'):
-        df = pd.read_csv(data_url)
-        df['Date'] = pd.to_datetime(df['Date'])
-        df_tochigi = df[['Date', 'Tochigi']]
-        st.dataframe(df_tochigi)
-        st.line_chart(df_tochigi)
+df = pd.read_csv(data_url)
+df['Datetime'] = pd.to_datetime(df['Date'])
+df_tochigi = df[['Datetime', 'Tochigi', 'ALL']].copy()
 
-        #matplotlib
-        fig, ax = plt.subplots()
-        plt.xticks(rotation=45)
-        ax.plot(df['Date'], df['Tochigi'])
-        ax.set_title('Tochigi')
-        st.pyplot(fig)
+with col1:
+    AgGrid(df_tochigi,theme="blue",fit_columns_on_grid_load=True)
 
+with col2:
 
+    #matplotlib
+    fig = plt.figure(figsize=(12,6))
 
+    ax1 = fig.add_subplot(1, 2, 1)
+    plt.xticks(rotation=45)
+    ax2 = fig.add_subplot(1, 2, 2)
+    plt.xticks(rotation=45)
+
+    ax1.plot(df['Datetime'], df['Tochigi'])
+    ax1.set_title('Tochigi')
+
+    ax2.plot(df['Datetime'], df['ALL'])
+    ax2.set_title('ALL')
+
+    st.pyplot(fig)
+
+    
