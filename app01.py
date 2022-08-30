@@ -38,7 +38,7 @@ df_nc_sc_tochigi = pd.merge(df_nc_tochigi[['Date', 'Tochigi']], df_sc_tochigi[['
 df_nc_sc_tochigi['重症者_Tochigi'].fillna(0, inplace=True)
 
 with col1:
-    st.info('新規感染者')
+    st.info('新規陽性者')
     st.dataframe(df_nc)
 
     st.info('重症者')
@@ -51,7 +51,7 @@ with col1:
 
 with col2:
 
-    #新規感染者とPCR実施人数
+    #新規陽性者とPCR実施人数
     mdf_nc = pd.melt(df_nc_pcr.drop(['Date', 'Tochigi'], axis=1).rename(columns={'ALL': '新規陽性者（全国）', 'PCR 検査実施人数(単日)': 'PCR検査実施人数（全国）'}), id_vars=['日付'],var_name="区分",value_name="人数" )
     selection = alt.selection_multi(fields=['区分'], bind='legend')
     chart = alt.Chart(mdf_nc, height=475).mark_line().encode( x="日付:T", y="人数", color="区分", opacity=alt.condition(selection, alt.value(1), alt.value(0.1)) ).add_selection( selection)
@@ -65,7 +65,7 @@ with col2:
     
     st.altair_chart((chart + points + tooltips).interactive(), use_container_width=True)
 
-    #新規感染者と重症者
+    #新規陽性者と重症者
     #栃木
     mdf_nc_sc_tochigi = pd.melt(df_nc_sc_tochigi.rename(columns={'Date':'日付', 'Tochigi': '新規陽性者（栃木）', '重症者_Tochigi': '重症者（栃木）'}), id_vars=['日付'],var_name="区分",value_name="人数" )
     selection = alt.selection_multi(fields=['区分'], bind='legend')
