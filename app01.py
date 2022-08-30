@@ -38,10 +38,10 @@ df_nc_sc_tochigi['重症者_Tochigi'].fillna(0, inplace=True)
 
 with col1:
     st.text('新規感染者')
-    st.dataframe(df_nc_tochigi)
+    st.dataframe(df_nc)
 
     st.text('重症者')
-    st.dataframe(df_sc_tochigi)
+    st.dataframe(df_sc)
 
     st.text('PCR検査実施人数')
     st.dataframe(df_pcr)
