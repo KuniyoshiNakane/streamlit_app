@@ -18,11 +18,11 @@ col1, col2 = st.columns(2)
 
 df_nc = pd.read_csv(data_url_newly_confirmed)
 df_nc['Date'] = pd.to_datetime(df_nc['Date'])
-df_nc_tochigi = df_nc[['Date', 'Tochigi', 'ALL']].copy()
+df_nc_tochigi = df_nc[['Date', 'Tochigi', 'ALL']]
 
 df_sc = pd.read_csv(data_url_severe_cases)
 df_sc['Date'] = pd.to_datetime(df_sc['Date'])
-df_sc_tochigi = df_sc[['Date', 'Tochigi', 'ALL']].rename(columns={'Tochigi': '重症者_Tochigi', 'ALL': '重症者_ALL'}).copy()
+df_sc_tochigi = df_sc[['Date', 'Tochigi', 'ALL']].rename(columns={'Tochigi': '重症者_Tochigi', 'ALL': '重症者_ALL'})
 
 df_pcr = pd.read_csv(data_url_pcr_tested)
 df_pcr['日付'] = pd.to_datetime(df_pcr['日付'])
