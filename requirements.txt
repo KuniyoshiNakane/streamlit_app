@@ -2,3 +2,4 @@ pandas
 matplotlib
 japanize_matplotlib
 streamlit-aggrid
+altair
