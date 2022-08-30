@@ -38,13 +38,13 @@ df_nc_sc_tochigi['重症者_Tochigi'].fillna(0, inplace=True)
 
 with col1:
     st.text('新規感染者')
-    AgGrid(df_nc_tochigi, theme="blue")
+    AgGrid(df_nc_tochigi)
 
     st.text('重症者')
-    AgGrid(df_sc_tochigi, theme="blue")
+    AgGrid(df_sc_tochigi)
 
     st.text('PCR検査実施人数')
-    AgGrid(df_pcr, theme='blue')
+    AgGrid(df_pcr)
 
 
 
