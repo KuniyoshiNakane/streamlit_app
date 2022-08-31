@@ -1,5 +1,4 @@
 pandas
 numpy
-matplotlib
-japanize_matplotlib
 altair
+streamlit-aggrid

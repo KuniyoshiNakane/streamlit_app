@@ -1,8 +1,7 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-import japanize_matplotlib
+from st_aggrid import AgGrid
 import altair as alt
 
 st.set_page_config(layout="wide")
@@ -38,14 +37,14 @@ df_nc_sc_tochigi = pd.merge(df_nc_tochigi[['Date', 'Tochigi']], df_sc_tochigi[['
 df_nc_sc_tochigi['重症者_Tochigi'].fillna(0, inplace=True)
 
 with col1:
-    st.info('新規陽性者')
-    st.dataframe(df_nc)
+    st.text('新規陽性者')
+    AgGrid(df_nc_tochigi, theme='blue')
 
-    st.info('重症者')
-    st.dataframe(df_sc)
+    st.text('重症者')
+    AgGrid(df_sc_tochigi, theme='blue')
 
-    st.info('PCR検査実施人数')
-    st.dataframe(df_pcr)
+    st.text('PCR検査実施人数')
+    AgGrid(df_pcr, theme='blue')
 
 
 
@@ -54,7 +53,7 @@ with col2:
     #新規陽性者とPCR実施人数
     mdf_nc = pd.melt(df_nc_pcr.drop(['Date', 'Tochigi'], axis=1).rename(columns={'ALL': '新規陽性者（全国）', 'PCR 検査実施人数(単日)': 'PCR検査実施人数（全国）'}), id_vars=['日付'],var_name="区分",value_name="人数" )
     selection = alt.selection_multi(fields=['区分'], bind='legend')
-    chart = alt.Chart(mdf_nc, height=475).mark_line().encode( x="日付:T", y="人数", color="区分", opacity=alt.condition(selection, alt.value(1), alt.value(0.1)) ).add_selection( selection)
+    chart = alt.Chart(mdf_nc, height=450).mark_line().encode( x="日付:T", y="人数", color="区分", opacity=alt.condition(selection, alt.value(1), alt.value(0.1)) ).add_selection( selection)
 
     # ホバー時にマーカーを表示
     hover = alt.selection_single( fields=["日付"], nearest=True, on="mouseover", empty="none")
@@ -69,7 +68,7 @@ with col2:
     #栃木
     mdf_nc_sc_tochigi = pd.melt(df_nc_sc_tochigi.rename(columns={'Date':'日付', 'Tochigi': '新規陽性者（栃木）', '重症者_Tochigi': '重症者（栃木）'}), id_vars=['日付'],var_name="区分",value_name="人数" )
     selection = alt.selection_multi(fields=['区分'], bind='legend')
-    chart = alt.Chart(mdf_nc_sc_tochigi, height=475).mark_line().encode( x="日付:T", y="人数", color="区分", opacity=alt.condition(selection, alt.value(1), alt.value(0.1)) ).add_selection( selection)
+    chart = alt.Chart(mdf_nc_sc_tochigi, height=450).mark_line().encode( x="日付:T", y="人数", color="区分", opacity=alt.condition(selection, alt.value(1), alt.value(0.1)) ).add_selection( selection)
 
     # ホバー時にマーカーを表示
     hover = alt.selection_single( fields=["日付"], nearest=True, on="mouseover", empty="none")
@@ -83,7 +82,7 @@ with col2:
     #全国
     mdf_nc_sc_all = pd.melt(df_nc_sc_all.rename(columns={'Date':'日付', 'ALL': '新規陽性者（全国）', '重症者_ALL': '重症者（全国）'}), id_vars=['日付'],var_name="区分",value_name="人数" )
     selection = alt.selection_multi(fields=['区分'], bind='legend')
-    chart = alt.Chart(mdf_nc_sc_all, height=475).mark_line().encode( x="日付:T", y="人数", color="区分", opacity=alt.condition(selection, alt.value(1), alt.value(0.1)) ).add_selection( selection)
+    chart = alt.Chart(mdf_nc_sc_all, height=450).mark_line().encode( x="日付:T", y="人数", color="区分", opacity=alt.condition(selection, alt.value(1), alt.value(0.1)) ).add_selection( selection)
 
     # ホバー時にマーカーを表示
     hover = alt.selection_single( fields=["日付"], nearest=True, on="mouseover", empty="none")
